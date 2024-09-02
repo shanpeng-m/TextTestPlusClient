@@ -1,0 +1,109 @@
+<html>
+<head charset="utf-8">
+    <meta name="author" content="Ray">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="source-code-pro.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <link rel="stylesheet" href="https://stackedit.io/style.css" />
+    <!-- <link href="https://fonts.cdnfonts.com/css/cascadia-code" rel="stylesheet">
+     -->
+     <!-- <link href="https://fonts.cdnfonts.com/css/narita-monospace" rel="stylesheet"> -->
+     <link href="https://fonts.cdnfonts.com/css/cutive-mono" rel="stylesheet">
+     <link href="https://fonts.cdnfonts.com/css/oxygen-mono" rel="stylesheet">
+     
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">      
+                      
+</head>
+
+<body>
+    
+<!-- <div class="ui sidebar inverted left vertical menu ">
+    <a class="item">
+        <br><br>
+    </a>
+    <a class="item" >
+      <h3 id="page1">Main Page</h3>
+    </a>
+    <a class="item" >
+      <h3 id="page2">How to use?</h3>
+    </a>
+    <a class="item" >
+      <h3 id="page3">Reference of the JSON and CSV file variable names</h3>
+    </a>
+</div> -->
+    <!-- <div class="pusher">
+    <div class="ui black big launch right attached button">
+        <i class="icon list layout"></i>
+    </div>
+    
+    <div class="ui center aligned header" id="Title">
+        <h1>TextTest++</h1>
+        <a href="https://github.com/DrustZ/TextTestPP" target="_blank" id="aboutlink">Source Code</a>    
+    </div> -->
+    <!-- <div id="main-sec" >
+
+      <div class="ui text container middle aligned stackable grid">
+        <div class="four wide column">
+            <button class="small ui blue button" id="Analysis">Analyze</button>
+        </div>
+        <div class="middle aligned column ">
+            <div class="ui action mini input">
+              <input type="text" placeholder="Log" id="Filename">
+          
+                &nbsp;
+                <button class="small ui icon blue button" id="Download"> Ctrl + S to Download log</button>
+            
+                <div id="downloadMessage"></div>
+              </div>
+            
+        </div>        
+    </div> -->
+
+        <!-- <div class="ui text container">
+
+            <div class="ui segment" id="Present">Loading...</div>
+            <textarea class="ui raised segment" style="height: fit-content;" id="Transcribe" spellcheck="false"></textarea>
+            <div class="ui fitted divider" style="border-color:white;"></div>
+            <div id="AlignBtn" class="ui stackable">
+              <span id="phraseCount" >Phrase Count 0/10</span>
+              <span id="condition" class="right"></span>
+          </div>
+        </div> -->
+
+        
+        <div class="ui text container" id ="Container">
+
+          <div class="" id="Present"  style="padding: 7;">Loading...</div>
+          <textarea  style="height: 40px !important;padding: 7; overflow-y: hidden;" id="Transcribe" spellcheck="false"></textarea>
+          <div class="ui fitted divider" style="border-color:white;"></div>
+          <div id="AlignBtn" class="ui stackable" style="margin-top:10;">
+            <span id="phraseCount" >Phrase Count 0/10</span>
+            <span id="info" ></span>
+            <span id="condition" class="right"></span>
+        </div>
+        <!-- <div class="ui text container" id ="Finish" >
+          <span id="finishedMessage" class="left" style="color: red; font-size: 6em; text-align: center; display: block;">Finshed</span>
+        </div> -->
+      </div>
+       
+    </div>
+
+    
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.7/vega.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.0.0/vega-lite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-rc6/vega-embed.js"></script>
+    
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+    <script src="semantic/dist/semantic.min.js"></script>
+    <script src="node_modules/diff/dist/diff.js"></script>
+    <script src="config.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

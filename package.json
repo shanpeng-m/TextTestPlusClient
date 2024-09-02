@@ -1,0 +1,14 @@
+{
+  "name": "texttestpp-master",
+  "version": "1.0.0",
+  "description": "TextTest++ for text entry experiments (using the T-seq model) and Throughput calculation",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "diff": "^5.2.0"
+  }
+}
