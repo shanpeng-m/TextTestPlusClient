@@ -692,41 +692,50 @@ $('#inputJson').change(function(){
 $("#Download").click(downloadButton)
 
 function downloadButton() {
-    if (CurrentJson == null) {
-        alert('Please analyze first!');
-        return;
-    }
-    var fname = DefaultName;
-    if ($("#Filename").val() != "")
-        fname = $("#Filename").val();
+  if (CurrentJson == null) {
+    alert('Please analyze first!');
+    return;
+  }
+  
+  var fname = DefaultName;
+  if ($("#Filename").val() != "") {
+    fname = $("#Filename").val();
+  }
+  
+  var content = '';
+  if ($("#Selectformat").val() == 0) { 
+    content = JSON.stringify(CurrentJson, null, '\t');
+    fname += '.json';
+  } else if ($("#Selectformat").val() == 1) {
+    content = JsonToCSV(CurrentJson);
+    fname += '.csv';
+  } else {
+    content = JsonToXml(CurrentJson);
+    fname += '.xml';
+  }
 
-    if ($("#Selectformat").val() == 0) { 
-        download(fname + ".json", JSON.stringify(CurrentJson, null, '\t'), 'application/json');
-    } else if ($("#Selectformat").val() == 1) {
-        var csv = JsonToCSV(CurrentJson);
-        download(fname + ".csv", csv, 'text/csv');
-    } else {
-        var xml = JsonToXml(CurrentJson);
-        download(fname + ".xml", xml, 'application/xml');
-    }
-}
+  // 将文件内容发送到 Cloudflare Worker
+  fetch('https://savefile.shanpeng-ma.workers.dev/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ filename: fname, content: content }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    // 使用返回的文件下载链接进行下载
+    const downloadLink = document.createElement('a');
+    downloadLink.href = data.downloadUrl;
+    downloadLink.setAttribute('download', fname);
 
-function download(filename, text, mimeType) {
-  // Create a Blob object and trigger download in the browser
-  var blob = new Blob([text], { type: mimeType });
-  var url = URL.createObjectURL(blob);
-
-  // Create a temporary download link and trigger click
-  const downloadLink = document.createElement('a');
-  downloadLink.href = url;
-  downloadLink.setAttribute('download', filename);
-
-  document.body.appendChild(downloadLink);
-  downloadLink.click();
-  document.body.removeChild(downloadLink);
-
-  // Revoke the object URL to free memory
-  URL.revokeObjectURL(url);
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  })
+  .catch(error => {
+    console.error('下载文件生成失败:', error);
+  });
 }
 
 
