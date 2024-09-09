@@ -625,6 +625,7 @@ function ENWalignment(seq1, seq2) {
 
 
 //following are download and format
+/*
 $("#Download").click(downloadButton)
 
 function downloadButton(){
@@ -647,7 +648,7 @@ function downloadButton(){
     }
 }
 
-/*
+
 function download(filename, text) {
   var element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -687,30 +688,47 @@ $('#inputJson').change(function(){
     } 
 })
 */
-function download(filename, text) {
-  // 将文本发送到 Cloudflare Worker 以生成文件
-  fetch('https://data2http.shanpeng-ma.workers.dev/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ filename: filename, content: text }),
-  })
-  .then(response => response.json())
-  .then(data => {
-    // 获取生成的文件链接并创建下载
-    const downloadLink = document.createElement('a');
-    downloadLink.href = data.fileUrl; // Worker 返回的文件 URL
-    downloadLink.setAttribute('download', filename);
+// Following are download and format
+$("#Download").click(downloadButton)
 
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-  })
-  .catch(error => {
-    console.error('下载文件生成失败:', error);
-  });
+function downloadButton() {
+    if (CurrentJson == null) {
+        alert('Please analyze first!');
+        return;
+    }
+    var fname = DefaultName;
+    if ($("#Filename").val() != "")
+        fname = $("#Filename").val();
+
+    if ($("#Selectformat").val() == 0) { 
+        download(fname + ".json", JSON.stringify(CurrentJson, null, '\t'), 'application/json');
+    } else if ($("#Selectformat").val() == 1) {
+        var csv = JsonToCSV(CurrentJson);
+        download(fname + ".csv", csv, 'text/csv');
+    } else {
+        var xml = JsonToXml(CurrentJson);
+        download(fname + ".xml", xml, 'application/xml');
+    }
 }
+
+function download(filename, text, mimeType) {
+  // Create a Blob object and trigger download in the browser
+  var blob = new Blob([text], { type: mimeType });
+  var url = URL.createObjectURL(blob);
+
+  // Create a temporary download link and trigger click
+  const downloadLink = document.createElement('a');
+  downloadLink.href = url;
+  downloadLink.setAttribute('download', filename);
+
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+
+  // Revoke the object URL to free memory
+  URL.revokeObjectURL(url);
+}
+
 
 
 //utils
