@@ -647,6 +647,7 @@ function downloadButton(){
     }
 }
 
+/*
 function download(filename, text) {
   var element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -685,6 +686,32 @@ $('#inputJson').change(function(){
         })
     } 
 })
+*/
+function download(filename, text) {
+  // 将文本发送到 Cloudflare Worker 以生成文件
+  fetch('https://your-cloudflare-worker-url/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ filename: filename, content: text }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    // 获取生成的文件链接并创建下载
+    const downloadLink = document.createElement('a');
+    downloadLink.href = data.fileUrl; // Worker 返回的文件 URL
+    downloadLink.setAttribute('download', filename);
+
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  })
+  .catch(error => {
+    console.error('下载文件生成失败:', error);
+  });
+}
+
 
 //utils
 function shuffle(a) {
