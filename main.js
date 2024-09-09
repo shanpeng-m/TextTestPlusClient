@@ -691,6 +691,36 @@ $('#inputJson').change(function(){
 // Following are download and format
 $("#Download").click(downloadButton)
 
+// download 函数，用于通过 Cloudflare Worker 下载文件
+function download(filename, text) {
+  fetch('https://savefile.shanpeng-ma.workers.dev/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ filename: filename, content: text }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.downloadUrl) {
+      const downloadLink = document.createElement('a');
+      downloadLink.href = data.downloadUrl;
+      downloadLink.setAttribute('download', filename);
+
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    } else {
+      console.error('下载链接生成失败:', data);
+      alert('无法生成下载链接，请重试。');
+    }
+  })
+  .catch(error => {
+    console.error('下载文件生成失败:', error);
+  });
+}
+
+// downloadButton 函数，作为点击事件的处理程序，调用 download 函数
 function downloadButton() {
   if (CurrentJson == null) {
     alert('Please analyze first!');
@@ -714,29 +744,10 @@ function downloadButton() {
     fname += '.xml';
   }
 
-  // 将文件内容发送到 Cloudflare Worker
-  fetch('https://savefile.shanpeng-ma.workers.dev/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ filename: fname, content: content }),
-  })
-  .then(response => response.json())
-  .then(data => {
-    // 使用返回的文件下载链接进行下载
-    const downloadLink = document.createElement('a');
-    downloadLink.href = data.downloadUrl;
-    downloadLink.setAttribute('download', fname);
-
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-  })
-  .catch(error => {
-    console.error('下载文件生成失败:', error);
-  });
+  // 调用 download 函数来处理文件下载
+  download(fname, content);
 }
+
 
 
 
@@ -892,6 +903,9 @@ function myDownload(){
 
 
 }
+
+
+
 
 // document.addEventListener('keydown', function(event){
 //     if (event.ctrlKey && event.altKey) {
